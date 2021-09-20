@@ -1,0 +1,231 @@
+---
+subtitle: "Collecting and Analyzing Web Data"
+title: "Functions"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: true
+    toc_collapsed: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T,
+                      eval=T)
+```
+
+
+
+## `for`-loops
+
+In R, we use loops whenever we need to run the same chunk of code across different units. For example, we may use a loop whenever we have multiple Twitter accounts and we want to run sentiment analysis for tweets posted by each of them.
+
+`for`-loops are probably the most common type of loop and are easily implemented in R
+
+```{r}
+for (i in 1:10) {
+  print(i)
+}
+```
+
+Note the structure: 
+
+
+`for (i in VECTOR){ do something with i }`
+
+
+In each iteration, i takes a different value of the vector; `i` can be named anything! We could also call it number:
+
+```{r}
+for (number in 1:10) {
+  print(number)
+}
+```
+
+The nice feature of loops is that it can reference values dependent on the iteration (as above with printing the current number in each iteration) and even use values from the  previous iteration. For instance, we can get the first 40 terms in the Fibonacci sequence (where each number is the sum of the two preceding numbers) using a `for`-loop.
+
+```{r}
+fib <- c(0, 1, rep(NA, 38))
+for (i in 3:40) {
+  fib[i] <- fib[i - 1] + fib[i - 2]
+}
+fib
+```
+
+Note that here we created an empty vector to store the output of each iteration. A simpler example:
+
+```{r}
+values <- rep(NA, 10)
+for (i in 1:10) {
+  values[i] <- i
+}
+values
+```
+
+We do this because 
+
+
+### Using `for`-loops
+
+Now, try to write code to download a pdf into a loop. We need to find a way to *loop* over several urls, downloading one file after the other. That means, we have to make the url as well as the file path dependent on the iteration.
+
+```{r}
+
+
+
+
+```
+
+The more you learn to use loops (as well as functions and apply commands for more advanced use), the easier the scraping will be. In the end, scraping is just a small step in the whole process of getting data so if you improve your programming skills in R - which is rewarding anyway - you will also get better at scraping in R.
+
+
+
+
+## Functions
+
+Functions are *instructions what you want to compute* - examples we often use are `mean()`
+
+A function typically has the following structure:
+
+```
+name <- function (arguments) {
+    code
+    return(output)
+}
+```
+
+To write a usable function, there are three key steps:
+
+- pick a name for the function and assign `function` to it
+- name the inputs, or arguments, to the function inside the brackets of `function()`
+- place your code in the body of the function
+    - surrounded by curly brackets and immediately following `function (arguments)`
+    - check if you need to specify a return value and if so, wrap it into `return()`
+
+One example would be this simple function:
+
+```{r}
+simple_mean <- function (x) {
+    sum(x) / length(x)
+}
+```
+
+By defining it, we simply add the function to our environment. To actually use it, we need to call it on an object:
+
+```{r}
+simple_mean(c(3, 4, 8))
+```
+
+If we explicitly want to return the value of the calculation as output, we might write something like this:
+
+```{r}
+simple_mean <- function(x) {
+  mean <- sum(x) / length(x)
+  return(mean)
+}
+```
+
+
+Try to write a few simple functions:
+
+- a function that takes two input values and divides the first by the second
+
+```{r}
+
+
+```
+
+- a function that takes two input values and divides the second by the first
+
+```{r}
+
+
+```
+
+- re-write the function in a way that
+    - you specify the result of the divison as a return value
+    - you print a statement of the type "value1 divided by value2 equals result" (you cannot just paste the elements but need to include a print statement for R to actually print the sentence)
+
+Assign the function to an object and see if you get the right return value
+
+```{r}
+
+
+```
+
+
+
+## `sapply()`
+
+Now, instead of writing a `for`-loop, we use a variant of `apply()` to repeat the code. That is, *we apply the function to each element of an input object*.
+
+While this may seem counter-intuitive, you first specify the object and then the function which you apply to the object:
+
+`sapply(object, function)`
+
+
+Try using `sapply()` and `lapply()` to print a few numbers:
+
+```{r}
+sapply(1:5, print)
+
+lapply(1:5, print)
+```
+
+*Remember* that, instead of `lapply()`, you could also use the `map()` function in the `purrr` package.
+
+
+Start with our division function: 
+Apply it to a vector. 
+
+**Important:** you have to add the second argument after calling the function.
+
+```{r}
+
+```
+
+Now try to achieve the same with the appropriate `purrr` `map_*()` function.
+
+*Hint:* Check `?purrr::map` to see which `map_*()`-variants are available. 
+To choose the appropriate one, think about what the type of the value our division returns is.
+If you don't know, try using `typeof()`.
+
+
+```{r }
+
+```
+
+
+Now, try to use the download function with an apply or `purrr`-map function:
+
+
+```{r}
+
+```
+
+If you want, compare the performance of the `for`-loop and the `sapply()` function by surrounding both of them with a time measure:
+
+```{r}
+start_time<-Sys.time()
+
+# your code
+
+
+
+end_time <- Sys.time()
+end_time - start_time
+
+```
+
+## Extra Tasks
+
+Write a simple function for something you often do in R - can you manage?
+
+```{r}
+
+
+```
+
+
+
+Have a look at one of the style guides listed on the slides e.g. the [tidyverse style guide](https://style.tidyverse.org/) and the [Google R Style Guide](https://google.github.io/styleguide/Rguide.html) . Is there something you want to change this week about how you write code, based on them?
