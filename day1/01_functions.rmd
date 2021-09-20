@@ -62,14 +62,25 @@ for (i in 1:10) {
 values
 ```
 
-We do this because 
+We do this because if we would always assign to the same object, each iteration would overwrite the previous one. 
+It is important to create this vector before starting the loop - otherwise, you'll experience errors when assigning to the ith position of that vector.
 
 
 ### Using `for`-loops
 
-Now, try to write code to download a pdf into a loop. We need to find a way to *loop* over several urls, downloading one file after the other. That means, we have to make the url as well as the file path dependent on the iteration.
+Now, try to write code to download a pdf into a loop. 
+
+We need to find a way to *loop* over several urls, downloading one file after the other. That means, we have to make the url as well as the file path dependent on the iteration.
+
+As an example, you can use the following three pages from the congressional record:
+
 
 ```{r}
+
+urls <- c("https://www.congress.gov/117/crec/2021/09/16/167/160/CREC-2021-09-16.pdf",
+  "https://www.congress.gov/117/crec/2021/09/15/167/159/CREC-2021-09-15.pdf",
+  "https://www.congress.gov/117/crec/2021/09/14/167/158/CREC-2021-09-14.pdf")
+
 
 
 
